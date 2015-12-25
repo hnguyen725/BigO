@@ -14,11 +14,10 @@ public class DataStructureChild {
     private String mWorstDeletion;
     private String mWorstSpace;
 
-    public DataStructureChild(String mAverageAccess, String mWorstSpace, String mAverageSearch,
+    public DataStructureChild(String mAverageAccess, String mAverageSearch,
                               String mAverageInsertion, String mAverageDeletion, String mWorstAccess,
-                              String mWorstSearch, String mWorstInsertion, String mWorstDeletion) {
+                              String mWorstSearch, String mWorstInsertion, String mWorstDeletion, String mWorstSpace) {
         this.mAverageAccess = mAverageAccess;
-        this.mWorstSpace = mWorstSpace;
         this.mAverageSearch = mAverageSearch;
         this.mAverageInsertion = mAverageInsertion;
         this.mAverageDeletion = mAverageDeletion;
@@ -26,6 +25,7 @@ public class DataStructureChild {
         this.mWorstSearch = mWorstSearch;
         this.mWorstInsertion = mWorstInsertion;
         this.mWorstDeletion = mWorstDeletion;
+        this.mWorstSpace = mWorstSpace;
     }
 
     public String getAverageAccess() {
