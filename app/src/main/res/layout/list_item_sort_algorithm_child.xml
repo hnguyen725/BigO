@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <TableRow
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".1"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".9"
+            android:padding="5dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:text="Time Complexity"/>
+    </TableRow>
+
+    <TableRow
+        android:paddingTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_weight=".33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Best"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_weight=".33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Average"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_weight=".33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Worst"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textStyle="bold"
+            />
+
+    </TableRow>
+
+    <TableRow
+        android:paddingTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/sa_best_time"
+            android:layout_weight=".33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="row part 1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/complexityColor"
+            />
+
+        <TextView
+            android:id="@+id/sa_average_time"
+            android:layout_weight=".33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="row part 2"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/complexityColor"
+            />
+
+        <TextView
+            android:id="@+id/sa_worst_time"
+            android:layout_weight=".33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="row part 3 "
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/complexityColor"
+            />
+
+    </TableRow>
+
+    <TableRow
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".1"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".4"
+            android:padding="5dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:text="Space Complexity"/>
+
+        <TextView
+            android:id="@+id/sa_worst_space"
+            android:layout_weight=".33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="row part 3 "
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/complexityColor"
+            />
+    </TableRow>
+
+</TableLayout>

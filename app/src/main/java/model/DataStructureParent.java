@@ -1,13 +1,13 @@
 package model;
 
-import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
+import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 
 import java.util.List;
 
 /**
  * Created by hieunguyen725 on 12/23/2015.
  */
-public class DataStructureParent implements ParentObject {
+public class DataStructureParent implements ParentListItem {
     private String mName;
     private List<Object> mChildrenList;
 
@@ -20,20 +20,16 @@ public class DataStructureParent implements ParentObject {
     }
 
     @Override
-    public List<Object> getChildObjectList() {
+    public List<?> getChildItemList() {
         return mChildrenList;
     }
 
-    @Override
-    public void setChildObjectList(List<Object> list) {
-        mChildrenList = list;
+    public void setChildrenList(List<Object> mChildrenList) {
+        this.mChildrenList = mChildrenList;
     }
 
     @Override
-    public String toString() {
-        return "DataStructureParent{" +
-                "mName='" + mName + '\'' +
-                ", mChildrenList=" + mChildrenList +
-                '}';
+    public boolean isInitiallyExpanded() {
+        return false;
     }
 }
