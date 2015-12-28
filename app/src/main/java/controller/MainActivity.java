@@ -1,13 +1,14 @@
 package controller;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.hieunguyen725.bigo.R;
 
@@ -17,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private static final CharSequence TAB_TITLES[] = {"Data Structures", "Sort Algorithms"};
     private static final int NUMBER_OF_TABS = 2;
 
-    public FloatingActionButton mFab;
+    private ViewPager mViewPager;
+    private FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(
                 getSupportFragmentManager(), TAB_TITLES, NUMBER_OF_TABS);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(viewPagerAdapter);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(viewPagerAdapter);
+
+        mFragmentStatePagerAdapter = (FragmentStatePagerAdapter) mViewPager.getAdapter();
 
         SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true);
@@ -41,9 +45,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tabs.setViewPager(viewPager);
-
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        tabs.setViewPager(mViewPager);
     }
 
     @Override
@@ -68,13 +70,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    public void refreshOnClick(View v) {
-//        DataStructureFragment dataStructureFragment = (DataStructureFragment) getSupportFragmentManager().findFragmentByTag(DataStructureFragment.TAG);
-//        SortAlgorithmFragment sortAlgorithmFragment = (SortAlgorithmFragment) getSupportFragmentManager().findFragmentByTag(SortAlgorithmFragment.TAG);
-//        if (dataStructureFragment != null && dataStructureFragment.isVisible()) {
-//            dataStructureFragment.getExpandableAdapter().collapseAllParents();
-//        } else if (sortAlgorithmFragment != null && sortAlgorithmFragment.isVisible()) {
-//            sortAlgorithmFragment.getExpandableAdapter().collapseAllParents();
-//        }
-//    }
+    public void refreshOnClick(View v) {
+        DataStructureFragment dataStructureFragment =
+                (DataStructureFragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, 0);
+        SortAlgorithmFragment sortAlgorithmFragment =
+                (SortAlgorithmFragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, 1);
+        if (dataStructureFragment != null && dataStructureFragment.isVisible() && mViewPager.getCurrentItem() == 0) {
+            dataStructureFragment.collapseAll();
+        } else if (sortAlgorithmFragment != null && sortAlgorithmFragment.isVisible() && mViewPager.getCurrentItem() == 1) {
+            sortAlgorithmFragment.collapseAll();
+        }
+
+    }
 }

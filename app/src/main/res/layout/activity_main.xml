@@ -20,7 +20,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp"
-        app:backgroundTint="@color/colorAccent" />
-
-
+        app:backgroundTint="@color/colorAccent"
+        android:onClick="refreshOnClick"/>
 </android.support.design.widget.CoordinatorLayout>

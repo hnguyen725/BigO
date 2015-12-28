@@ -52,15 +52,6 @@ public class SortAlgorithmFragment extends Fragment {
 
         mRecyclerView.setAdapter(mExpandableAdapter);
 
-        super.onResume();
-        ((MainActivity) getActivity()).mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mExpandableAdapter.collapseAllParents();
-            }
-        });
-
-
         return view;
     }
 
