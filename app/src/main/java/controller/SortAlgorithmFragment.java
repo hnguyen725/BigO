@@ -14,8 +14,8 @@ import com.example.hieunguyen725.bigo.R;
 
 import java.util.List;
 
-import application.MyApplication;
-import controller.expandablerecyclerview.SortAlgorithmExpandableAdapter;
+import model.ApplicationData;
+import expandablerecyclerview.SortAlgorithmExpandableAdapter;
 
 
 public class SortAlgorithmFragment extends Fragment {
@@ -44,7 +44,7 @@ public class SortAlgorithmFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.sort_algorithm_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        List<ParentListItem> sortAlgorithmParents = ((MyApplication)
+        List<ParentListItem> sortAlgorithmParents = ((ApplicationData)
                 getActivity().getApplication()).getAllSortAlgorithm();
         mExpandableAdapter  =
                 new SortAlgorithmExpandableAdapter(getActivity(), sortAlgorithmParents);

@@ -1,4 +1,4 @@
-package application;
+package model;
 
 import android.app.Application;
 
@@ -7,15 +7,10 @@ import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.DataStructureChild;
-import model.DataStructureParent;
-import model.SortAlgorithmChild;
-import model.SortAlgorithmParent;
-
 /**
  * Created by hieunguyen725 on 12/24/2015.
  */
-public class MyApplication extends Application {
+public class ApplicationData extends Application {
     /**
      * Information about data structures complexity
      * index values are in the following order:
@@ -26,8 +21,9 @@ public class MyApplication extends Application {
     private final String DS_DATA[][] = {
             {"Array", "1", "n", "n", "n", "1", "n", "n", "n", "n"},
             {"Stack", "n", "n", "1", "1", "n", "n", "1", "1", "n"},
-            {"Singly-Linked List", "n", "n", "1", "1", "n", "n", "1", "1", "n"},
-            {"Doubly-Linked List", "n", "n", "1", "1", "n", "n", "1", "1", "n"},
+            {"Queue", "n", "n", "1", "1", "n", "n", "1", "1", "n"},
+            {"Singly-Linked List", "n", "n", "-", "-", "n", "n", "n", "n", "n"},
+            {"Doubly-Linked List", "n", "n", "-", "-", "n", "n", "n", "n", "n"},
             {"Skip List", "log(n)", "log(n)", "log(n)", "log(n)", "n", "n", "n", "n", "n log(n)"},
             {"Hash Table", "-", "1", "1", "1", "-", "n", "n", "n", "n"},
             {"Binary Search Tree", "log(n)", "log(n)", "log(n)", "log(n)", "n", "n", "n", "n", "n"},

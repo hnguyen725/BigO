@@ -13,8 +13,8 @@ import com.example.hieunguyen725.bigo.R;
 
 import java.util.List;
 
-import application.MyApplication;
-import controller.expandablerecyclerview.DataStructureExpandableAdapter;
+import model.ApplicationData;
+import expandablerecyclerview.DataStructureExpandableAdapter;
 
 
 public class DataStructureFragment extends Fragment {
@@ -41,7 +41,7 @@ public class DataStructureFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.data_structure_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        List<ParentListItem> dataStructureParents = ((MyApplication)
+        List<ParentListItem> dataStructureParents = ((ApplicationData)
                 getActivity().getApplication()).getAllDataStructure();
         mExpandableAdapter  =
                 new DataStructureExpandableAdapter(getActivity(), dataStructureParents);

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/runType">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data Structures"
+            android:id="@+id/dataStructuresRB"
+            android:layout_marginLeft="10dp"
+            android:checked="true"
+            android:textColor="@color/primaryTextColor" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Array Sorting Algorithms"
+            android:id="@+id/arraySortingAlgorithmsRB"
+            android:layout_marginLeft="10dp"
+            android:checked="false"
+            android:textColor="@color/primaryTextColor" />
+
+    </RadioGroup>
+
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/inputSizeSpinner"
+        android:layout_below="@+id/runType"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dsTypeSpinner"
+        android:layout_alignTop="@+id/inputSizeSpinner"
+        android:layout_alignLeft="@+id/inputSizeSpinner"
+        android:layout_alignStart="@+id/inputSizeSpinner"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/arraySettingSpinner"
+        android:layout_alignTop="@+id/inputSizeSpinner"
+        android:layout_alignLeft="@+id/inputSizeSpinner"
+        android:layout_alignStart="@+id/inputSizeSpinner"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:text="Test Run"
+        android:id="@+id/runButton"
+        android:layout_below="@+id/inputSizeSpinner"
+        android:layout_centerHorizontal="true"
+        android:onClick="testRunButtonOnClick"
+        android:background="#8C9EFF"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        android:layout_marginTop="15dp" />
+
+</RelativeLayout>

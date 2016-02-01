@@ -21,8 +21,10 @@ public class ViewPagerAdapter  extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0) {
             return new DataStructureFragment();
-        } else {
+        } else if (position == 1) {
             return new SortAlgorithmFragment();
+        } else {
+            return new RunTimeComparisonFragment();
         }
     }
 

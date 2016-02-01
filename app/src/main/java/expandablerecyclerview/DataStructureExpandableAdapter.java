@@ -1,4 +1,4 @@
-package controller.expandablerecyclerview;
+package expandablerecyclerview;
 
 import android.content.Context;
 import android.graphics.Color;

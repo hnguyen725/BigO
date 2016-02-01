@@ -15,8 +15,8 @@ import com.example.hieunguyen725.bigo.R;
 import slidingtab.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
-    private static final CharSequence TAB_TITLES[] = {"Data Structures", "Sort Algorithms"};
-    private static final int NUMBER_OF_TABS = 2;
+    private static final CharSequence TAB_TITLES[] = {"Data Structures", "Sort Algorithms", "Run Time Comparisons"};
+    private static final int NUMBER_OF_TABS = 3;
 
     private ViewPager mViewPager;
     private FragmentStatePagerAdapter mFragmentStatePagerAdapter;
