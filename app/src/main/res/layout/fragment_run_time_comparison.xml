@@ -71,7 +71,6 @@
         android:id="@+id/runButton"
         android:layout_below="@+id/inputSizeSpinner"
         android:layout_centerHorizontal="true"
-        android:onClick="testRunButtonOnClick"
         android:background="#8C9EFF"
         android:textColor="@android:color/white"
         android:textSize="10sp"

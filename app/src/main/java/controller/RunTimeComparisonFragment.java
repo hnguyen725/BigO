@@ -2,20 +2,26 @@ package controller;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.example.hieunguyen725.bigo.R;
 
+import java.util.Random;
+
+import RunTimeComplexity.SortRunTime;
+
 /**
  * Created by hieunguyen725 on 1/15/2016.
  */
 public class RunTimeComparisonFragment extends Fragment {
-    public final String TAG = "RunTimeComparisonFragment";
+    public final String TAG = "RunTimeComparison";
 
     private Spinner sizeSpinner;
     private Spinner dsTypeSpinner;
@@ -34,6 +40,7 @@ public class RunTimeComparisonFragment extends Fragment {
 
         setUpSpinners(view);
         setRadioGroupListener(view);
+        setRunButton(view);
 
         return view;
     }
@@ -77,5 +84,40 @@ public class RunTimeComparisonFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void setRunButton(View view) {
+        Button runButton = (Button) view.findViewById(R.id.runButton);
+
+        String sizeInput = sizeSpinner.getSelectedItem().toString();
+        final int n = Integer.parseInt(sizeInput);
+
+        runButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentRadioId = radioGroup.getCheckedRadioButtonId();
+                if (currentRadioId == R.id.dataStructuresRB) {
+                    Log.d(TAG, "ds checked");
+                    runDataStructuresComparison(n);
+                } else if (currentRadioId == R.id.arraySortingAlgorithmsRB) {
+                    Log.d(TAG, "sa checked");
+                    runSortAlgorithmsComparison(n);
+                }
+            }
+        });
+    }
+
+    private void runDataStructuresComparison(int n) {
+
+    }
+
+    private void runSortAlgorithmsComparison(int n) {
+        Random rand = new Random();
+        int[] array = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            array[i] = rand.nextInt(n);
+        }
+        Log.d(TAG, "" + SortRunTime.QuickSort.sort(array));
     }
 }
