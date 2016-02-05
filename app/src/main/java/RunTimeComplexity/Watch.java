@@ -2,7 +2,6 @@ package RunTimeComplexity;
 
 import java.util.concurrent.TimeUnit;
 
-
 public class Watch {
 	private static long startTime;
 	
@@ -10,8 +9,8 @@ public class Watch {
 		startTime = System.nanoTime();
 	}
 	
-	public static long getTime() {
+	public static float getTime() {
 //		return TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-		return System.nanoTime() - startTime;
+		return (float) (TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime));
 	}
 }

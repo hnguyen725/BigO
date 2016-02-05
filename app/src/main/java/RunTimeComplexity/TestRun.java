@@ -15,13 +15,6 @@ import java.util.TreeSet;
 
 public class TestRun {
 	
-	public static void main(String[] args) {
-		int n = 10000;
-		testDS(n);
-		System.out.println();
-		testSA(n);
-	}
-	
 	private static void testSA(int n) {
 		Random rand = new Random();
 		int[] array = new int[n];
@@ -58,7 +51,7 @@ public class TestRun {
 	// search: arraylist, linkedlist, hashtable, treeset
 	// insertion: arraylist, linkedlist, hashtable, treeset
 	// deletion: arraylist, linkedlist, hashtable, treeset
-	private static void testDS(int n) {
+	public static void testDS(int n) {
 		List<Integer> arrayList = new ArrayList<Integer>();
 		List<Integer> linkedList = new LinkedList<Integer>();
 		Set<Integer> hashSet = new HashSet<Integer>();
