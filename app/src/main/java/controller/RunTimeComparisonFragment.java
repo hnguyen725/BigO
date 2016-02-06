@@ -23,11 +23,20 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import RunTimeComplexity.ListRunTime;
+import RunTimeComplexity.MapRunTime;
+import RunTimeComplexity.SetRunTime;
 import RunTimeComplexity.SortRunTime;
 
 /**
@@ -43,6 +52,8 @@ public class RunTimeComparisonFragment extends Fragment {
     private RadioGroup radioGroup;
 
     private BarChart chart;
+
+    private String currentTestChoice;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,7 +101,7 @@ public class RunTimeComparisonFragment extends Fragment {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.dataStructuresRB ) {
+                if (checkedId == R.id.dataStructuresRB) {
                     dsTypeSpinner.setVisibility(View.VISIBLE);
                     arraySettingSpinner.setVisibility(View.INVISIBLE);
                 } else if (checkedId == R.id.arraySortingAlgorithmsRB) {
@@ -114,12 +125,8 @@ public class RunTimeComparisonFragment extends Fragment {
                 int n = Integer.parseInt(sizeInput);
                 int currentRadioId = radioGroup.getCheckedRadioButtonId();
                 if (currentRadioId == R.id.dataStructuresRB) {
-                    Log.d(TAG, "ds checked");
                     runDataStructuresComparison(n);
-//                    TestRun.testDS(n);
-//                    Log.d(TAG, "Test run finished");
                 } else if (currentRadioId == R.id.arraySortingAlgorithmsRB) {
-                    Log.d(TAG, "sa checked");
                     runSortAlgorithmsComparison(n);
                 }
             }
@@ -128,26 +135,15 @@ public class RunTimeComparisonFragment extends Fragment {
 
     private void runDataStructuresComparison(int n) {
         String dsType = dsTypeSpinner.getSelectedItem().toString();
-
-        List<Integer> arrayList = new ArrayList<Integer>();
-        List<Integer> linkedList = new LinkedList<Integer>();
-//        Set<Integer> hashSet = new HashSet<Integer>();
-//        Set<Integer> treeSet = new TreeSet<Integer>();
-//        Map<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
-//        Map<Integer, Integer> treeMap = new TreeMap<Integer, Integer>();
-
         Random rand = new Random();
 
-        for (int i = 0; i < n; i++) {
-            arrayList.add(i);
-            linkedList.add(i);
-//            hashSet.add(rand.nextInt(n));
-//            treeSet.add(rand.nextInt(n));
-//            hashMap.put(rand.nextInt(n), i);
-//            treeMap.put(rand.nextInt(n), i);
-        }
-
         if (dsType.equalsIgnoreCase("Lists")) {
+            List<Integer> arrayList = new ArrayList<Integer>();
+            List<Integer> linkedList = new LinkedList<Integer>();
+            for (int i = 0; i < n; i++) {
+                arrayList.add(i);
+                linkedList.add(i);
+            }
             Log.d(TAG, "List selected");
             String[] labels = {"Access", "Search", "Random Insertion", "Sequential Insertion",
                 "Random Deletion", "Sequential Deletion"};
@@ -182,57 +178,164 @@ public class RunTimeComparisonFragment extends Fragment {
             dataSets.add(arrayListDataSet);
             dataSets.add(linkedListDataSet);
 
-            BarData data = new BarData(labels, dataSets);
-            data.setValueTextSize(11f);
-
-            Log.d(TAG, "Prepare to draw");
-
-            chart.setData(data);
-
-            Legend legend = chart.getLegend();
-            legend.setForm(Legend.LegendForm.CIRCLE);
-            legend.setFormSize(10f);
-            legend.setTextSize(12f);
-            legend.setFormToTextSpace(5f);
-            legend.setXEntrySpace(20f);
-            legend.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
-
-            XAxis xAxis = chart.getXAxis();
-            xAxis.setTextSize(12f);
-
-            chart.setDescription("Time unit - Milliseconds");
-            chart.setDescriptionTextSize(12f);
-            chart.setDescriptionPosition(400f, 150f);
-
-            chart.getAxisRight().setDrawLabels(false);
-            chart.getAxisLeft().setDrawLabels(false);
-            chart.getAxisLeft().setDrawGridLines(false); // vertical line grid
-            chart.getXAxis().setDrawGridLines(false);
-            chart.getAxisRight().setDrawGridLines(false); // horizontal line grid
-//            chart.animateXY(3000, 3000);
-            chart.animateY(3000, Easing.EasingOption.EaseInOutBounce);
-            chart.setVisibleXRangeMaximum(9);
-            chart.setGridBackgroundColor(Color.TRANSPARENT);
-            chart.invalidate();
-
-            Log.d(TAG, "Started Drawing Chart");
+            drawChart(dataSets, labels);
 
         } else if (dsType.equalsIgnoreCase("Sets")) {
+            Set<Integer> hashSet = new HashSet<Integer>();
+            Set<Integer> treeSet = new TreeSet<Integer>();
+            for (int i = 0; i < n; i++) {
+                hashSet.add(rand.nextInt(n));
+                treeSet.add(rand.nextInt(n));
+            }
             String[] labels = {"Search", "Insertion", "Deletion"};
+            List<BarEntry> hashSetEntries = new ArrayList<>();
+            hashSetEntries.add(new BarEntry(SetRunTime.searchTime(hashSet, n), 0));
+            hashSetEntries.add(new BarEntry(SetRunTime.insertionTime(hashSet, n), 1));
+            hashSetEntries.add(new BarEntry(SetRunTime.deletionTime(hashSet, n), 2));
+
+            List<BarEntry> treeSetEntries = new ArrayList<>();
+            treeSetEntries.add(new BarEntry(SetRunTime.searchTime(treeSet, n), 0));
+            treeSetEntries.add(new BarEntry(SetRunTime.insertionTime(treeSet, n), 1));
+            treeSetEntries.add(new BarEntry(SetRunTime.deletionTime(treeSet, n), 2));
+
+            BarDataSet hashSetDataSet = new BarDataSet(hashSetEntries, "HashSet");
+            BarDataSet treeSetDataSet = new BarDataSet(treeSetEntries, "TreeSet");
+
+            hashSetDataSet.setColor(Color.BLUE);
+
+            List<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(hashSetDataSet);
+            dataSets.add(treeSetDataSet);
+
+            drawChart(dataSets, labels);
 
         } else if (dsType.equalsIgnoreCase("Maps")) {
+            Map<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
+            Map<Integer, Integer> treeMap = new TreeMap<Integer, Integer>();
+            for (int i = 0; i < n; i++) {
+                hashMap.put(rand.nextInt(n), i);
+                treeMap.put(rand.nextInt(n), i);
+            }
             String[] labels = {"Access", "Search", "Insertion", "Deletion"};
+
+            List<BarEntry> hashMapEntries = new ArrayList<>();
+            hashMapEntries.add(new BarEntry(MapRunTime.accessTime(hashMap, n), 0));
+            hashMapEntries.add(new BarEntry(MapRunTime.searchTime(hashMap, n), 1));
+            hashMapEntries.add(new BarEntry(MapRunTime.insertionTime(hashMap, n), 2));
+            hashMapEntries.add(new BarEntry(MapRunTime.deletionTime(hashMap, n), 3));
+
+            List<BarEntry> treeMapEntries = new ArrayList<>();
+            treeMapEntries.add(new BarEntry(MapRunTime.accessTime(treeMap, n), 0));
+            treeMapEntries.add(new BarEntry(MapRunTime.searchTime(treeMap, n), 1));
+            treeMapEntries.add(new BarEntry(MapRunTime.insertionTime(treeMap, n), 2));
+            treeMapEntries.add(new BarEntry(MapRunTime.deletionTime(treeMap, n), 3));
+
+            BarDataSet hashMapDataSet = new BarDataSet(hashMapEntries, "HashMap");
+            BarDataSet treeMapDataSet = new BarDataSet(treeMapEntries, "TreeMap");
+
+            hashMapDataSet.setColor(Color.BLUE);
+
+            List<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(hashMapDataSet);
+            dataSets.add(treeMapDataSet);
+
+            drawChart(dataSets, labels);
 
         }
     }
 
     private void runSortAlgorithmsComparison(int n) {
+        int[] array = generateArray(n);
+
+        String[] labels = {"Bubble sort", "Merge sort", "Insertion sort", "Selection sort", "Quicksort"};
+        List<BarEntry> sortTimeEntries = new ArrayList<>();
+        sortTimeEntries.add(new BarEntry(SortRunTime.BubbleSort.sort(Arrays.copyOf(array, array.length)), 0));
+        sortTimeEntries.add(new BarEntry(SortRunTime.MergeSort.sort(Arrays.copyOf(array, array.length)), 1));
+        sortTimeEntries.add(new BarEntry(SortRunTime.InsertionSort.sort(Arrays.copyOf(array, array.length)), 2));
+        sortTimeEntries.add(new BarEntry(SortRunTime.SelectionSort.sort(Arrays.copyOf(array, array.length)), 3));
+        sortTimeEntries.add(new BarEntry(SortRunTime.QuickSort.sort(Arrays.copyOf(array, array.length)), 4));
+
+        BarDataSet sortTimeDataSet = new BarDataSet(sortTimeEntries, "Algorithms");
+        sortTimeDataSet.setBarSpacePercent(50f);
+
+        List<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(sortTimeDataSet);
+
+        drawChart(dataSets, labels);
+
+    }
+
+    private int[] generateArray(int n) {
+        String arraySetting = arraySettingSpinner.getSelectedItem().toString();
         Random rand = new Random();
         int[] array = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            array[i] = rand.nextInt(n);
+        if (arraySetting.equalsIgnoreCase("Random")) {
+            for (int i = 0; i < n; i++) {
+                array[i] = rand.nextInt(n);
+            }
+        } else if (arraySetting.equalsIgnoreCase("Nearly Sorted")) {
+            double sortedChance = 0.9;
+            for (int i = 0; i < n; i++) {
+                double currentChance = rand.nextDouble();
+                if (currentChance >= sortedChance) {
+                    array[i] = rand.nextInt(i);
+                } else {
+                    array[i] = i;
+                }
+            }
+        } else if (arraySetting.equalsIgnoreCase("Reverse")) {
+            for (int i = 0; i < n; i++) {
+                array[i] = n - i - 1;
+            }
         }
-        Log.d(TAG, "" + SortRunTime.QuickSort.sort(array));
+        return array;
+    }
+
+    private void drawChart(List<IBarDataSet> dataSets, String[] labels) {
+        BarData data = new BarData(labels, dataSets);
+        data.setValueTextSize(10f);
+
+        Log.d(TAG, "Prepare to draw");
+
+        chart.setData(data);
+
+        Legend legend = chart.getLegend();
+        legend.setForm(Legend.LegendForm.SQUARE);
+        legend.setFormSize(10f);
+        legend.setTextSize(12f);
+        legend.setFormToTextSpace(5f);
+        legend.setXEntrySpace(20f);
+        legend.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+        legend.setExtra(new int[] {Color.BLACK}, new String[] {"Unit - Microseconds"});
+        chart.notifyDataSetChanged();
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setTextSize(8f); // top labels
+        xAxis.setSpaceBetweenLabels(0);
+
+        chart.setDescription("");
+        chart.setDescriptionTextSize(10f);
+        chart.setDescriptionPosition(300f, 100f);
+
+        chart.getAxisRight().setDrawLabels(false);
+        chart.getAxisLeft().setDrawLabels(false);
+        chart.getAxisLeft().setDrawGridLines(false); // vertical line grid
+        chart.getXAxis().setDrawGridLines(false);
+        chart.getAxisRight().setDrawGridLines(false); // horizontal line grid
+
+//            chart.animateXY(3000, 3000);
+        chart.animateY(3000, Easing.EasingOption.EaseInOutBounce);
+        chart.setGridBackgroundColor(Color.TRANSPARENT);
+        chart.fitScreen();
+        chart.setVisibleXRangeMaximum(10);
+
+        // disable zooming
+        chart.setPinchZoom(false);
+        chart.setDoubleTapToZoomEnabled(false);
+
+        // draw
+        chart.invalidate();
+
+        Log.d(TAG, "Started Drawing Chart");
     }
 }

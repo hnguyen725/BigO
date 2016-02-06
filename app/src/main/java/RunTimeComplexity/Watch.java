@@ -9,8 +9,9 @@ public class Watch {
 		startTime = System.nanoTime();
 	}
 	
-	public static float getTime() {
-//		return TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-		return (float) (TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime));
+	public static long getTime() {
+//		return (TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime));
+		return (TimeUnit.NANOSECONDS.toMicros(System.nanoTime() - startTime));
+//		return System.nanoTime() - startTime;
 	}
 }

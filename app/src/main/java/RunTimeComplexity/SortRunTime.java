@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class SortRunTime {
 
 	public static class BubbleSort {
-		public static float sort(int[] array) {
+		public static long sort(int[] array) {
 			Watch.start();
 			boolean swapped = true;
 			int temp;
@@ -27,7 +27,7 @@ public class SortRunTime {
 
 
 	public static class MergeSort {
-		public static float sort(int[] array) {
+		public static long sort(int[] array) {
 			Watch.start();
 			mergeSort(array);
 			return Watch.getTime();
@@ -82,7 +82,7 @@ public class SortRunTime {
 	}
 
 	public static class QuickSort {
-		public static float sort(int[] array) {
+		public static long sort(int[] array) {
 			Watch.start();
 			Arrays.sort(array);
 			return Watch.getTime();
@@ -90,7 +90,7 @@ public class SortRunTime {
 	}
 
 	public static class InsertionSort {
-		public static float sort(int[] array) {
+		public static long sort(int[] array) {
 			Watch.start();
 			for (int i = 1; i < array.length; i++) {
 				int currentVal = array[i];
@@ -105,7 +105,7 @@ public class SortRunTime {
 	}
 
 	public static class SelectionSort {
-		public static float sort(int[] array) {
+		public static long sort(int[] array) {
 			Watch.start();
 			int temp;
 			for (int i = 0; i < array.length - 1; i++) {
