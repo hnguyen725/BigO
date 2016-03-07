@@ -1,5 +1,6 @@
 package controller;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
@@ -14,13 +15,23 @@ import com.example.hieunguyen725.bigo.R;
 
 import slidingtab.SlidingTabLayout;
 
+/**
+ * The main activity of the application which holds all three main fragments
+ * of data structures, sort algorithms, and run time fragment.
+ */
 public class MainActivity extends AppCompatActivity {
-    private static final CharSequence TAB_TITLES[] = {"Data Structures", "Sort Algorithms", "Run Time Comparisons"};
+    private static final CharSequence TAB_TITLES[]
+            = {"Data Structures", "Sort Algorithms", "Run Time Comparisons"};
     private static final int NUMBER_OF_TABS = 3;
 
     private ViewPager mViewPager;
     private FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
+    /**
+     * onCreate method, setting the custom toolbar, viewpager and the
+     * fragment state pager adapter to hold the main fragments as a tab layout.
+     * @param savedInstanceState the saved state bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,36 +59,58 @@ public class MainActivity extends AppCompatActivity {
         tabs.setViewPager(mViewPager);
     }
 
+    /**
+     * Inflate the applications's menu.
+     * @param menu the menu to be inflated with.
+     * @return true once inflated the menu.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    /**
+     * Select an option from the application menu given a menu item.
+     * @param item the selected menu item.
+     * @return true when the selected menu item existed
+     *         and its action is executed.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.application_about) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            String aboutMessage = "Run time reference - www.bigocheatsheet.com \n"
+                    + "Apache License 2.0 - PagerSlidingTabStrip\n"
+                    + "Apache License 2.0 - MPAndroidChart";
+            builder.setMessage(aboutMessage);
+
+            AlertDialog alert = builder.create();
+            alert.setTitle("About");
+            alert.show();
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Refresh button on click, close all the children views from the recycler view.
+     * @param v the associated view widget with the on click action.
+     */
     public void refreshOnClick(View v) {
         DataStructureFragment dataStructureFragment =
                 (DataStructureFragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, 0);
         SortAlgorithmFragment sortAlgorithmFragment =
                 (SortAlgorithmFragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, 1);
-        if (dataStructureFragment != null && dataStructureFragment.isVisible() && mViewPager.getCurrentItem() == 0) {
+        if (dataStructureFragment != null && dataStructureFragment.isVisible()
+                && mViewPager.getCurrentItem() == 0) {
             dataStructureFragment.collapseAll();
-        } else if (sortAlgorithmFragment != null && sortAlgorithmFragment.isVisible() && mViewPager.getCurrentItem() == 1) {
+        } else if (sortAlgorithmFragment != null && sortAlgorithmFragment.isVisible()
+                && mViewPager.getCurrentItem() == 1) {
             sortAlgorithmFragment.collapseAll();
         }
 

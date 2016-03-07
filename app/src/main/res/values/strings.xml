@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BigO</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">Big O Complexities</string>
+    <string name="title_activity_main">Data Structures Complexity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -25,5 +25,6 @@
         <item>Random</item>
         <item>Nearly Sorted</item>
         <item>Reverse</item>
+        <item>Few Unique</item>
     </string-array>
 </resources>

@@ -14,12 +14,14 @@ import com.example.hieunguyen725.bigo.R;
 
 import java.util.List;
 
-import model.ApplicationData;
+import data.ApplicationData;
 import expandablerecyclerview.SortAlgorithmExpandableAdapter;
 
-
+/**
+ * The fragment that contains all the runtime complexity for different
+ * sort algorithms.
+ */
 public class SortAlgorithmFragment extends Fragment {
-
     public static final String TAG = "SortAlgorithmFragment";
 
     private RecyclerView mRecyclerView;
@@ -29,12 +31,24 @@ public class SortAlgorithmFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * onCreate method.
+     * @param savedInstanceState the previous saved state bundle.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
 
+    /**
+     * Create a view with a list of sort algorithms as parent items and their runtime
+     * as the children using recycler view.
+     * @param inflater layout inflater
+     * @param container the fragment's view group container
+     * @param savedInstanceState the previous saved instance bundle.
+     * @return the view to be created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,16 +69,27 @@ public class SortAlgorithmFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Save the state information of the view hierarchy.
+     * @param outState the state to be saved.
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         ((SortAlgorithmExpandableAdapter) mRecyclerView.getAdapter()).onSaveInstanceState(outState);
     }
 
+    /**
+     * Return the current recycler view expandable adapter.
+     * @return the recycler view expandable adapter.
+     */
     public SortAlgorithmExpandableAdapter getExpandableAdapter() {
         return mExpandableAdapter;
     }
 
+    /**
+     * Collapse all the parents and hide their children in the recycler view.
+     */
     public void collapseAll() {
         mExpandableAdapter.collapseAllParents();
     }

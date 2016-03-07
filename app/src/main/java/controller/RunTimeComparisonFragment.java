@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.hieunguyen725.bigo.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -19,34 +20,48 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import java.util.List;
 
 /**
- * Created by hieunguyen725 on 1/15/2016.
+ * A fragment that will allow the user to run tests on different data structures
+ * and algorithm and see their runtime in comparison.
  */
 public class RunTimeComparisonFragment extends Fragment {
     public final String TAG = "RunTimeComparison";
 
-    private Spinner sizeSpinner;
-    private Spinner dsTypeSpinner;
-    private Spinner arraySettingSpinner;
+    private Spinner mSizeSpinner;
+    private Spinner mDSTypeSpinner;
+    private Spinner mArraySettingSpinner;
+    private RadioGroup mRadioGroup;
+    private int mCurrentRadioButtonId;
+    private BarChart mChart;
+    private MyChart mChartUtil;
+    private RetrieveDataTask mCurrentTask;
+    private ProgressBar mProgressBar;
 
-    private RadioGroup radioGroup;
-    private int currentRadioButtonId;
 
-    private BarChart chart;
-
-    private ProgressBar progressBar;
-
+    /**
+     * onCreate method.
+     * @param savedInstanceState bundle of saved state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Set up the initial run time testing view for the users.
+     * @param inflater layout inflater
+     * @param container the fragment's view group container
+     * @param savedInstanceState the previous saved state bundle.
+     * @return the view to be created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_run_time_comparison, container, false);
 
-        chart = (BarChart) view.findViewById(R.id.chart);
-        progressBar = (ProgressBar) view.findViewById(R.id.displayProgress);
-        progressBar.setVisibility(View.INVISIBLE);
+        mChart = (BarChart) view.findViewById(R.id.chart);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.displayProgress);
+        mProgressBar.setVisibility(View.INVISIBLE);
+
+        mChartUtil = new MyChart();
 
         setUpSpinners(view);
         setRadioGroupListener(view);
@@ -55,47 +70,61 @@ public class RunTimeComparisonFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Set up different spinners for user selection before running the run time tests.
+     * @param view the associated view with the attached the spinners.
+     */
     private void setUpSpinners(View view) {
         // Set up input size spinner
-        sizeSpinner = (Spinner) view.findViewById(R.id.inputSizeSpinner);
+        mSizeSpinner = (Spinner) view.findViewById(R.id.inputSizeSpinner);
         ArrayAdapter<CharSequence> sizeAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.input_size, R.layout.spinner_item);
         sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sizeSpinner.setAdapter(sizeAdapter);
+        mSizeSpinner.setAdapter(sizeAdapter);
 
         // set up data structure operation spinner
-        dsTypeSpinner = (Spinner) view.findViewById(R.id.dsTypeSpinner);
+        mDSTypeSpinner = (Spinner) view.findViewById(R.id.dsTypeSpinner);
         ArrayAdapter<CharSequence> operationAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.ds_type, R.layout.spinner_item);
         operationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dsTypeSpinner.setAdapter(operationAdapter);
-        dsTypeSpinner.setVisibility(View.VISIBLE);
+        mDSTypeSpinner.setAdapter(operationAdapter);
+        mDSTypeSpinner.setVisibility(View.VISIBLE);
 
         // set up array setting spinner
-        arraySettingSpinner = (Spinner) view.findViewById(R.id.arraySettingSpinner);
+        mArraySettingSpinner = (Spinner) view.findViewById(R.id.arraySettingSpinner);
         ArrayAdapter<CharSequence> arraySettingAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.array_setting, R.layout.spinner_item);
         arraySettingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        arraySettingSpinner.setAdapter(arraySettingAdapter);
-        arraySettingSpinner.setVisibility(View.INVISIBLE);
+        mArraySettingSpinner.setAdapter(arraySettingAdapter);
+        mArraySettingSpinner.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Set radio group listener for the type of test the user want to run
+     * (data structure or sort algorithms) to show the spinners accordingly to
+     * the selected radio button.
+     * @param view the associated view with the attached radio group.
+     */
     private void setRadioGroupListener(View view) {
-        radioGroup = (RadioGroup) view.findViewById(R.id.runType);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mRadioGroup = (RadioGroup) view.findViewById(R.id.runType);
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.dataStructuresRB) {
-                    dsTypeSpinner.setVisibility(View.VISIBLE);
-                    arraySettingSpinner.setVisibility(View.INVISIBLE);
+                    mDSTypeSpinner.setVisibility(View.VISIBLE);
+                    mArraySettingSpinner.setVisibility(View.INVISIBLE);
                 } else if (checkedId == R.id.arraySortingAlgorithmsRB) {
-                    arraySettingSpinner.setVisibility(View.VISIBLE);
-                    dsTypeSpinner.setVisibility(View.INVISIBLE);
+                    mArraySettingSpinner.setVisibility(View.VISIBLE);
+                    mDSTypeSpinner.setVisibility(View.INVISIBLE);
                 }
             }
         });
     }
 
+    /**
+     * Set up the run button to start the runtime comparison tests.
+     * @param view the associated view with the run button.
+     */
     public void setRunButton(View view) {
         Button runButton = (Button) view.findViewById(R.id.runButton);
 
@@ -107,45 +136,77 @@ public class RunTimeComparisonFragment extends Fragment {
         });
     }
 
+    /**
+     * Helper method to start the test process with a new task, or notify
+     * the user if a task is already started.
+     */
     private void startTestProcess() {
-        int sizeInput = Integer.parseInt(sizeSpinner.getSelectedItem().toString());
-        int currentRadioId = radioGroup.getCheckedRadioButtonId();
+        int sizeInput = Integer.parseInt(mSizeSpinner.getSelectedItem().toString());
+        int currentRadioId = mRadioGroup.getCheckedRadioButtonId();
 
-        RetrieveData currentTask = new RetrieveData();
-        currentTask.execute(sizeInput, currentRadioId);
+        if (mCurrentTask != null && mCurrentTask.getStatus() != AsyncTask.Status.FINISHED) {
+            Toast.makeText(getContext(), "Please wait, a test is currently running.", Toast.LENGTH_LONG).show();
+        } else {
+            mCurrentTask = new RetrieveDataTask();
+            mCurrentTask.execute(sizeInput, currentRadioId);
+        }
     }
 
-    public class RetrieveData extends AsyncTask<Integer, Void, List<IBarDataSet>> {
+    /**
+     * An async task class to retrieve all the run time data and display the information
+     * as a bar chart.
+     */
+    public class RetrieveDataTask extends AsyncTask<Integer, Void, List<IBarDataSet>> {
+
+        /**
+         * Set the progress bar to be visible before executing the task.
+         */
         @Override
         protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.VISIBLE);
         }
 
+        /**
+         * Retrieve the data based on the selected test type (data structures or sort algorithms)
+         * using the chart util class (MyChart).
+         * @param params
+         * @return
+         */
         @Override
         protected List<IBarDataSet> doInBackground(Integer... params) {
             int sizeInput = params[0];
-            currentRadioButtonId = params[1];
-            if (currentRadioButtonId == R.id.dataStructuresRB) {
-                return MyChart.getDataStructuresTime(sizeInput, dsTypeSpinner);
-            } else if (currentRadioButtonId == R.id.arraySortingAlgorithmsRB) {
-                return MyChart.getSortAlgorithmsTime(sizeInput, arraySettingSpinner);
+            mCurrentRadioButtonId = params[1];
+            if (mCurrentRadioButtonId == R.id.dataStructuresRB) {
+                return mChartUtil.getDataStructuresTime(sizeInput, mDSTypeSpinner);
+            } else if (mCurrentRadioButtonId == R.id.arraySortingAlgorithmsRB) {
+                return mChartUtil.getSortAlgorithmsTime(sizeInput, mArraySettingSpinner);
             } else {
                 return null;
             }
         }
 
+        /**
+         * Set progressbar to be invisible and display the bar chart if its list of data sets is
+         * not null.
+         * @param dataSets a list of bar data sets retrieved from chart util (MyChart)
+         *                 compute runtime methods.
+         */
         @Override
         protected void onPostExecute(List<IBarDataSet> dataSets) {
-            progressBar.setVisibility(View.INVISIBLE);
+            mProgressBar.setVisibility(View.INVISIBLE);
             if (dataSets != null) {
-                MyChart.display(chart, dataSets, chooseLabels());
+                mChartUtil.display(mChart, dataSets, chooseLabels());
             }
         }
     }
 
+    /**
+     * Helper method to get the x-axis labels based on the current selected test setting.
+     * @return a string array of x-axis labels.
+     */
     private String[] chooseLabels() {
-        if (currentRadioButtonId == R.id.dataStructuresRB) {
-            String dataStructureType = dsTypeSpinner.getSelectedItem().toString();
+        if (mCurrentRadioButtonId == R.id.dataStructuresRB) {
+            String dataStructureType = mDSTypeSpinner.getSelectedItem().toString();
             if (dataStructureType.equalsIgnoreCase("Sets")) {
                 return new String[] {"Search", "Insertion", "Deletion"};
             } else if (dataStructureType.equalsIgnoreCase("Lists")) {
@@ -154,7 +215,7 @@ public class RunTimeComparisonFragment extends Fragment {
             } else {
                 return new String[] {"Access", "Search", "Insertion", "Deletion"};
             }
-        } else if (currentRadioButtonId == R.id.arraySortingAlgorithmsRB) {
+        } else if (mCurrentRadioButtonId == R.id.arraySortingAlgorithmsRB) {
             return new String[] {"Bubble sort", "Merge sort", "Insertion sort",
                     "Selection sort", "Quicksort"};
         } else {

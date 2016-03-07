@@ -1,4 +1,4 @@
-package model;
+package data;
 
 import android.app.Application;
 
@@ -7,8 +7,14 @@ import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.DataStructureChild;
+import model.DataStructureParent;
+import model.SortAlgorithmChild;
+import model.SortAlgorithmParent;
+
 /**
- * Created by hieunguyen725 on 12/24/2015.
+ * The application data class to initialize the application with
+ * all the needed run time data for different data structures and algorithms.
  */
 public class ApplicationData extends Application {
     /**
@@ -54,6 +60,9 @@ public class ApplicationData extends Application {
     private List<ParentListItem> mDataStructureParents;
     private List<ParentListItem> mSortAlgorithmParents;
 
+    /**
+     * onCreate method, initialize the parent items based on the recycler view's architecture.
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -61,6 +70,13 @@ public class ApplicationData extends Application {
         mSortAlgorithmParents = initializeSortAlgorithms(mSortAlgorithmParents);
     }
 
+    /**
+     * Initialize the data structure parent list items and their associated children for the recycler
+     * view.
+     * @param dataStructureParents the given empty list of data structure parents to be initialized.
+     * @return a list of data structure parents and their associated children as the runtime
+     * big-O complexity.
+     */
     private List<ParentListItem> initializeDataStructures(List<ParentListItem> dataStructureParents) {
         dataStructureParents = new ArrayList<>();
         for (int i = 0; i < DS_DATA.length; i++) {
@@ -76,6 +92,13 @@ public class ApplicationData extends Application {
         return dataStructureParents;
     }
 
+    /**
+     * Initialize the sort algorithms parent list items and their associated children for the recycler
+     * view.
+     * @param sortAlgorithmParents the given empty list of sort algorithms parents to be initialized.
+     * @return a list of sort algorithms parents and their associated children as the runtime
+     * big-O complexity.
+     */
     private List<ParentListItem> initializeSortAlgorithms(List<ParentListItem> sortAlgorithmParents) {
         sortAlgorithmParents = new ArrayList<>();
         for (int i = 0; i < SA_DATA.length; i++) {
@@ -90,10 +113,18 @@ public class ApplicationData extends Application {
         return sortAlgorithmParents;
     }
 
+    /**
+     * Return a list of all data structure parent items.
+     * @return a list of data structure parent items.
+     */
     public List<ParentListItem> getAllDataStructure() {
         return mDataStructureParents;
     }
 
+    /**
+     * Return a list of all sort algorithms parent items.
+     * @return a list of sort algorithms parent items.
+     */
     public List<ParentListItem> getAllSortAlgorithm() {
         return mSortAlgorithmParents;
     }
