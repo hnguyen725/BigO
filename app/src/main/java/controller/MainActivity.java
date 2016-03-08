@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(
                 getSupportFragmentManager(), TAB_TITLES, NUMBER_OF_TABS);
         mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(viewPagerAdapter);
 
         mFragmentStatePagerAdapter = (FragmentStatePagerAdapter) mViewPager.getAdapter();
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.application_about) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            String aboutMessage = "Run time reference - www.bigocheatsheet.com \n"
+            String aboutMessage = "Big-O reference - www.bigocheatsheet.com \n"
                     + "Apache License 2.0 - PagerSlidingTabStrip\n"
                     + "Apache License 2.0 - MPAndroidChart";
             builder.setMessage(aboutMessage);
