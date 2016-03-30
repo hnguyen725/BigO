@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
-import com.example.hieunguyen725.bigo.R;
 
 import java.util.List;
 
+import hieunguyen725.bigo.R;
 import model.SortAlgorithmChild;
 import model.SortAlgorithmChildViewHolder;
 import model.SortAlgorithmParent;

@@ -329,12 +329,7 @@ public class MyChart {
      * @param chart the bar chart to set animation with.
      */
     private void setCharAnimation(BarChart chart) {
-        Easing.EasingOption[] easingOptions = {
-                Easing.EasingOption.EaseInBack, Easing.EasingOption.EaseInBounce,
-                Easing.EasingOption.EaseInOutBack, Easing.EasingOption.EaseInOutBounce,
-                Easing.EasingOption.EaseOutBack, Easing.EasingOption.EaseOutBounce
-        };
-        chart.animateY(3000, easingOptions[mRand.nextInt(easingOptions.length)]);
+        chart.animateY(3000, Easing.EasingOption.EaseInOutBounce);
     }
 
     /**

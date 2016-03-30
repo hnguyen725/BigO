@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.hieunguyen725.bigo.R;
+import hieunguyen725.bigo.R;
 
 import slidingtab.SlidingTabLayout;
 

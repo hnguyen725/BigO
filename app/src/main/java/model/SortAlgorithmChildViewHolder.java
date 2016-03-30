@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
-import com.example.hieunguyen725.bigo.R;
+import hieunguyen725.bigo.R;
 
 /**
  * Created by hieunguyen725 on 12/25/2015.

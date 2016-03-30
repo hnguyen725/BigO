@@ -13,11 +13,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.hieunguyen725.bigo.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.util.List;
+
+import hieunguyen725.bigo.R;
 
 /**
  * A fragment that will allow the user to run tests on different data structures

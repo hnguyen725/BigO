@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
-import com.example.hieunguyen725.bigo.R;
 
 import java.util.List;
 
 import data.ApplicationData;
 import expandablerecyclerview.DataStructureExpandableAdapter;
+import hieunguyen725.bigo.R;
 
 
 /**
